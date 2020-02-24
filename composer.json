@@ -1,0 +1,26 @@
+{
+    "name": "hsyir/options",
+    "description": "Package for manage options",
+    "authors": [
+        {
+            "name": "hosseinyaghmaee",
+            "email": "hosseinyaghmaee@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Hsy\\Options\\ServiceProvider"
+            ],
+            "aliases": {
+                "Options": "Hsy\\Options\\Facade"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Hsy\\Options\\": "src/"
+        }
+    }
+}
