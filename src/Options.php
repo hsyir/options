@@ -8,93 +8,53 @@
 
 namespace Hsy\Options;
 
-use Hsy\Options\Exceptions\CacheKeyNotFound;
-use Hsy\Options\Models\Option;
+use Hsy\Options\Exceptions\OptionNotFoundInDatabase;
+use Hsy\Options\Traits\OptionsInCache;
+use Hsy\Options\Traits\OptionsInDatabase;
 
 class Options
 {
-    const CACHE_PREFIX = "options_";
+    use OptionsInCache;
+    use OptionsInDatabase;
 
-    /**
-     * @var  $SiteOptions SiteOptions
-     */
-    public $siteOptions;
-
-    public function __construct()
+    public function get($key, $default = null)
     {
-        $this->siteOptions = new SiteOptions();
-    }
+        if ($this->cacheExists($key))
+            return $this->getFromCache($key);
 
-    public function exists($key)
-    {
-        $model=config('options.optionsModel');
-        return $model::find($key) ? true : false;
+        $option = $this->getFromDatabase($key);
+
+        return $option ? $option->value : $default;
     }
 
     public function set($key, $value)
     {
-        $model=config('options.optionsModel');
-        $this->flush($key);
-
-        if ($option = $model::find($key)) {
-            $option->value = $value;
-            $option->save();
-        } else {
-            $model::create(['key' => $key, 'value' => $value]);
-        }
-        $this->remember($key, $value, 60 * 60 * 24 * 30);
+        $this->updateOrInsertInDatabase($key, $value);
+        $this->updateCache($key, $value);
     }
 
-    public function get($key, $default = "", $insert_default = true, $cache_time = 60 * 60 * 24 * 30)
+    public function update($key, $value)
     {
-        $model=config('options.optionsModel');
-        try {
-            return $this->getFromCache($key);
-        } catch (CacheKeyNotFound $exception) {
-        }
+        if (!$this->existsInDatabase($key))
+            throw new OptionNotFoundInDatabase;
 
-        if ($option = $model::find($key)) {
-            $this->remember($key, $option->value, $cache_time);
-            return $option->value;
-        }
-
-        if ($insert_default) {
-            $model::create(['key' => $key, 'value' => $default]);
-        }
-
-        return $default;
+        $this->updateDatabase($key, $value);
+        $this->updateCache($key, $value);
     }
 
-    public function flush($key)
+    public function remove($key)
     {
-        cache()->forget(self::CACHE_PREFIX . $key);
-        return $this;
+        if ($this->existsInDatabase($key))
+            $this->removeFromDatabase($key);
+
+        $this->removeFromCache($key);
+
     }
 
-    private function remember($key, $value, $time)
+    public function exists($key)
     {
-        cache()->put(self::CACHE_PREFIX . $key, $value, $time);
+        return $this->existsInDatabase($key);
     }
 
-    private function getFromCache($key)
-    {
-        if (cache()->has(self::CACHE_PREFIX . $key))
-            return cache()->get(self::CACHE_PREFIX . $key);
-
-        throw new CacheKeyNotFound;
-    }
-
-
-
-
-    public function getAllSiteOptions()
-    {
-        return $this->siteOptions->getAllSiteOptions();
-    }
-
-    public function getSiteOption($key, $default = "")
-    {
-        return $this->siteOptions->getSiteOption($key, $default);
-    }
 }
 

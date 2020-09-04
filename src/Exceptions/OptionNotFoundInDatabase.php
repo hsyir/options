@@ -9,7 +9,7 @@
 namespace Hsy\Options\Exceptions;
 
 use Exception;
-class CacheKeyNotFound extends Exception
+class OptionNotFoundInDatabase extends Exception
 {
 
 }

@@ -13,13 +13,7 @@ class ServiceProvider extends SP
      */
     public function register()
     {
-
-        \App::bind('Options', function () {
-            return new Options();
-        });
-
-
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/options.php', 'options');
+        $this->mergeConfigFrom(__DIR__ . '/../config/options.php', 'options');
 
     }
 
@@ -30,19 +24,6 @@ class ServiceProvider extends SP
      */
     public function boot()
     {
-          $this->loadViewsFrom(__DIR__.'/../resources/views', 'siteOptions');
-        /*
-                  $this->publishes([
-                      __DIR__ . '/../resources/config/tenancyManager.php' => config_path('tenancyManager.php'),
-                  ], 'config');
-
-                  $this->publishes([
-                      __DIR__.'/../resources/views' => resource_path('views/vendor/tenancyManager'),
-                  ], 'views');
-
-          */
-
-        $this->loadRoutesFrom(__DIR__ . '/routes/routes.php');
-
+        $this->publishes([__DIR__ . '/../config/options.php' => config_path('options.php'),], 'config');
     }
 }

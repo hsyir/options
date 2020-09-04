@@ -1,6 +1,6 @@
 <?php
 return [
-    'optionsModel' => App\Models\Option::class,
+    'optionsModel' => \Hsy\Options\Models\Option::class,
     'siteOptions' =>
         [
             'site-data' => [
