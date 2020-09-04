@@ -8,11 +8,6 @@
         }
     ],
     "require": {},
-    "autoload": {
-        "psr-4": {
-            "Hsy\\Options\\": "src/"
-        }
-    },
     "extra": {
         "laravel": {
             "providers": [
@@ -21,6 +16,11 @@
             "aliases": {
                 "Options": "Hsy\\Options\\Facades\\Options"
             }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Hsy\\Options\\": "src/"
         }
     },
 }
