@@ -25,5 +25,9 @@ class ServiceProvider extends SP
     public function boot()
     {
         $this->publishes([__DIR__ . '/../config/options.php' => config_path('options.php'),], 'config');
-    }
+
+      $this->publishes([
+          __DIR__.'/../database/' => database_path('migrations')
+      ], 'migrations');
+      }
 }
