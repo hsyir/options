@@ -22,5 +22,15 @@
         "psr-4": {
             "Hsy\\Options\\": "src/"
         }
-    }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Hsy\\Options\\ServiceProvider"
+            ],
+            "aliases": {
+                "Options": "Hsy\\Options\\Facades\\Options"
+            }
+        }
+    },
 }
