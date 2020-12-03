@@ -26,8 +26,8 @@ class ServiceProvider extends SP
     {
         $this->publishes([__DIR__ . '/../config/options.php' => config_path('options.php'),], 'config');
 
-      $this->publishes([
-          __DIR__.'/../database/' => database_path('migrations')
-      ], 'migrations');
-      }
+        $this->publishes([
+            __DIR__.'/../database/' => database_path('migrations')
+        ], 'migrations');
+    }
 }

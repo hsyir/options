@@ -7,11 +7,12 @@
             "email": "hosseinyaghmaee@gmail.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {},
     "extra": {
         "laravel": {
             "providers": [
-                "Hsy\\Options\\ServiceProvider"
+                "Hsy\\Options\\OptionsServiceProvider"
             ],
             "aliases": {
                 "Options": "Hsy\\Options\\Facades\\Options"
@@ -22,5 +23,11 @@
         "psr-4": {
             "Hsy\\Options\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "Hsy\\Options\\Tests\\": "tests/"
+    },
+    "require-dev": {
+        "orchestra/testbench": "9999999-dev"
     }
 }
