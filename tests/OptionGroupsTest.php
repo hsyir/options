@@ -69,11 +69,11 @@ class OptionGroupsTest extends TestCase
         $this->assertEquals($option, "default value");
     }
 
-    public function test_field_not_exists_in_config_when_set()
+    public function test_field_not_exists_in_config_on_set_method()
     {
         $value = "value";
-        $group="group-one";
-        $field="field-undefined";
+        $group = "group-one";
+        $field = "field-undefined";
 
         $this->expectException(FieldNotExists::class);
 
@@ -84,27 +84,53 @@ class OptionGroupsTest extends TestCase
 
     public function test_set()
     {
-        $value = "value";
-        $group="group-one";
-        $field="field-one";
+        $table = "options";
+
+        $group = "group-one";
+        $field = "field-one";
 
         //check set new value
+        $value = "value";
         Options::group($group)->set($field, $value);
-        $this->assertDatabaseCount("options",1);
-
-        // check the database
-        $this->assertEquals($value,Options::group($group)->get($field));
+        $this->assertDatabaseCount($table, 1);
+        $this->assertEquals($value, Options::group($group)->get($field));
 
 
-        
         //check update option
         $value = "new value";
         Options::group($group)->set($field, $value);
+        $this->assertDatabaseCount($table, 1);
+        $this->assertEquals($value, Options::group($group)->get($field));
 
-        // check the database
-        $this->assertDatabaseCount("options",1);
 
-        $this->assertEquals($value,Options::group($group)->get($field));
+        //------------------------------
+
+        $group = "group-one";
+        $field = "field-two";
+
+        //check set new value
+        $value = "field_two_value";
+        Options::group($group)->set($field, $value);
+        $this->assertDatabaseCount($table, 1);
+        $this->assertEquals($value, Options::group($group)->get($field));
+
+
+        //---------------------------
+
+        $group = "group-two";
+        $field = "field-one";
+
+        //check set new value
+        $value = "field_one_value_group_two";
+        Options::group($group)->set($field, $value);
+        $this->assertDatabaseCount($table, 2);
+        $this->assertEquals($value, Options::group($group)->get($field));
+
+
+        //check update value
+        $value = "new_value_field_one_value_group_two";
+        Options::group($group)->set($field, $value);
+        $this->assertEquals($value, Options::group($group)->get($field));
 
     }
 }
