@@ -25,7 +25,9 @@
         }
     },
     "autoload-dev": {
-        "Hsy\\Options\\Tests\\": "tests/"
+        "psr-4": {
+            "Hsy\\Options\\Tests\\": "tests"
+        }
     },
     "require-dev": {
         "orchestra/testbench": "9999999-dev"
