@@ -8,7 +8,9 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "ext-json": "*"
+    },
     "extra": {
         "laravel": {
             "providers": [
