@@ -56,5 +56,10 @@ class Options
         return $this->existsInDatabase($key);
     }
 
+    public function group($key)
+    {
+        return new GroupedOptions($key);
+    }
+
 }
 

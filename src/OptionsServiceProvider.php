@@ -4,7 +4,7 @@ namespace Hsy\Options;
 
 use Illuminate\Support\ServiceProvider as SP;
 
-class ServiceProvider extends SP
+class OptionsServiceProvider extends SP
 {
     /**
      * Register services.
